@@ -4,15 +4,12 @@ Feature: Validate favorite and comment function
   Background: Precondition
     * def isTimeValidator = read('classpath:helpers/TimeValidator.js')
     * url apiUrl
+    * configure afterScenario =  function(){ karate.call('Hook.feature'); }
+
 
   Scenario: Favorite articles
     # Step 1: Add new article (optimize here - Create a AddArticle.feature)
-    * def title = "Articles" + parseInt(Math.random()*10000)
-    Given path 'articles'
-    And request {"article": {"tagList": [],"title": "#(title)","description": "des","body": "body"}}
-    When method Post
-    Then status 200
-    And match response.article.title == title
+    * call read('AddArticle.feature')
     # Step 2: Get the favorites count and slug ID for the the article, save it to variables
     * def slugId = response.article.slug
     * def favoritesCount = response.article.favoritesCount
@@ -57,7 +54,7 @@ Feature: Validate favorite and comment function
     # Step 5: Verify that favorites article incremented by 1
     And match response.article.favoritesCount == favoritesCount + 1
     # Step 6: Get all favorite articles
-    Given params {limit: 10, offset: 0}
+    Given params {limit: 10, offset: 0, favorited: "#(username)"}
     Given path 'articles'
     When method Get
     Then status 200
@@ -85,18 +82,13 @@ Feature: Validate favorite and comment function
     # Step 8: Verify that slug ID from Step 2 exist in one of the favorite articles
     And match response.articles[*].slug contains slugId
     # Step 9: Delete the article (optimize here with afterScenario - create a Hook.feature)
-    Given path 'articles',slugId
-    When method Delete
-    Then status 204
+#   Given path 'articles',slugId
+#   When method Delete
+#   Then status 204
 
   Scenario: Comment articles
     # Step 1: Add new article (optimize here - Create a AddArticle.feature)
-    * def title = "Articles" + parseInt(Math.random()*10000)
-    Given path 'articles'
-    And request {"article": {"tagList": [],"title": "#(title)","description": "des","body": "body"}}
-    When method Post
-    Then status 200
-    And match response.article.title == title
+    * call read('AddArticle.feature')
     # Step 2: Get the slug ID for the article, save it to variable
     * def slugId = response.article.slug
     * def favoritesCount = response.article.favoritesCount
@@ -153,6 +145,6 @@ Feature: Validate favorite and comment function
     Then status 200
     And response.comments.length == commentsCount - 1
     # Step 12: Delete the article (optimize here with afterScenario - create a Hook.feature)
-    Given path 'articles',slugId
-    When method Delete
-    Then status 204
+#   Given path 'articles',slugId
+#   When method Delete
+#   Then status 204

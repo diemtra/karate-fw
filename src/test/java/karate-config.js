@@ -10,10 +10,12 @@ function fn() {
   if (env == 'dev') {
     config.userEmail = 'tratran2905@fakegmail.com'
     config.userPassword = 'Kms@2019'
+    config.username = 'tratran2905'
   }
   else if (env == 'qa') {
     config.userEmail = 'tratran2905@fakegmail.com'
     config.userPassword = 'Kms@2019'
+    config.username = 'tratran2905'
   }
 
   var token = karate.callSingle('classpath:helpers/CreateToken.feature', config).authToken

@@ -10,4 +10,4 @@ Feature: Add a new article
     And request {"article": {"tagList": [],"title": "#(title)","description": "des","body": "body"}}
     When method Post
     Then status 200
-    * def articleId = response.article.slug
+    And match response.article.title == title
