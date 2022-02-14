@@ -82,9 +82,7 @@ Feature: Validate favorite and comment function
     # Step 8: Verify that slug ID from Step 2 exist in one of the favorite articles
     And match response.articles[*].slug contains slugId
     # Step 9: Delete the article (optimize here with afterScenario - create a Hook.feature)
-#   Given path 'articles',slugId
-#   When method Delete
-#   Then status 204
+    # Defined in afterScenario
 
   Scenario: Comment articles
     # Step 1: Add new article (optimize here - Create a AddArticle.feature)
@@ -139,6 +137,4 @@ Feature: Validate favorite and comment function
     * call read('ArticleComments.feature')
     And response.comments.length == commentsCount - 1
     # Step 12: Delete the article (optimize here with afterScenario - create a Hook.feature)
-#   Given path 'articles',slugId
-#   When method Delete
-#   Then status 204
+    # Defined in afterScenario
