@@ -93,9 +93,7 @@ Feature: Validate favorite and comment function
     * def slugId = response.article.slug
     * def favoritesCount = response.article.favoritesCount
     # Step 3: Make a GET call to 'comments' end-point to get all comments
-    Given path 'articles',slugId,'comments'
-    When method Get
-    Then status 200
+    * call read('ArticleComments.feature')
     # Step 4: Verify response schema
     And match response ==
         """
@@ -129,9 +127,7 @@ Feature: Validate favorite and comment function
           }
       """
     # Step 8: Get the list of all comments for this article one more time
-    Given path 'articles',slugId,'comments'
-    When method Get
-    Then status 200
+    * call read('ArticleComments.feature')
     # Step 9: Verify number of comments increased by 1 (similar like we did with favorite counts)
     And response.comments.length == commentsCount + 1
     * def commentsCount = response.comments.length
@@ -140,9 +136,7 @@ Feature: Validate favorite and comment function
     When method Delete
     Then status 204
     # Step 11: Get all comments again and verify number of comments decreased by 1
-    Given path 'articles',slugId,'comments'
-    When method Get
-    Then status 200
+    * call read('ArticleComments.feature')
     And response.comments.length == commentsCount - 1
     # Step 12: Delete the article (optimize here with afterScenario - create a Hook.feature)
 #   Given path 'articles',slugId
